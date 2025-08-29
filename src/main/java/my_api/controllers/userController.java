@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Date;
 
 import my_api.models.User;
 
@@ -36,6 +37,7 @@ public class userController {
     @PostMapping
     public User postUser(@RequestBody User user)
     {
+        user.setCreatedAt(new Date());
         return userRepository.save(user);
     }
 
