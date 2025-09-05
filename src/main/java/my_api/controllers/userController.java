@@ -39,8 +39,14 @@ public class userController {
 
     // Endpoint para crear usuario
     @PostMapping
-    public ResponseEntity<User> postUser(@RequestBody User user)
+    public ResponseEntity<?> postUser(@RequestBody User user)
     {
+
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("El correo ya está registrado");
+        }
+
         user.setCreatedAt(new Date());
         return ResponseEntity.status(HttpStatus.CREATED)
         .body(userRepository.save(user));
